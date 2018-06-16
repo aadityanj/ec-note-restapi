@@ -5,8 +5,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       references: {
         model: 'Note',
-        key: id,
-        deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
+        key: 'id',
+        deferrable: sequelize.Deferrable.INITIALLY_IMMEDIATE
       }
     },
     revisedNote: DataTypes.TEXT,

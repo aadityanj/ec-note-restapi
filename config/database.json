@@ -4,6 +4,7 @@
     "password": null,
     "database": "ec_note",
     "host": "localhost",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "operatorsAliases": false
   }
 }
