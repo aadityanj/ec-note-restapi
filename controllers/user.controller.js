@@ -16,10 +16,10 @@ module.exports = {
     },
 
     getUser(req, res) {
-        let id = req.params.id;
+        console.log(req.user);
         User.findOne({
             where:{
-                emp_id: id
+                id: req.user.id
             },
             attributes: {
                 exclude:  ['password']

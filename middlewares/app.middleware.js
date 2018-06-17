@@ -6,6 +6,7 @@ const cors = require('cors')
 const router = express.Router();
 const auth = require('./../routes/auth');
 const userRoute = require('./../routes/user.route');
+const noteRoute = require('./../routes/note.route');
 
 module.exports = function (app) {
     app.use(helmet());
@@ -30,7 +31,13 @@ module.exports = function (app) {
     
     app.use('/auth', auth(router, passport));
 
-    app.use('/user', userRoute)
+    app.use('/user',passport.passport.authenticate('jwt', {
+        session: false
+    }), userRoute)
+
+    app.use('/note',passport.passport.authenticate('jwt', {
+        session: false
+    }), noteRoute)
 
     return app;
 }

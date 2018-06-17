@@ -3,4 +3,4 @@ const app = express();
 
 require('./middlewares/app.middleware')(app);
 
-app.listen(3000, () => console.log('Ec-note End points listening on port 3000!'));
+app.listen(4200, () => console.log('Ec-note End points listening on port 3000!'));
