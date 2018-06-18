@@ -5,11 +5,12 @@ module.exports = {
     createNote(req, res) {
         if (req.body.title) {
             req.body.userId = req.user.id;
-            req.body.status = 1;
+            req.body.status = '1';
             req.body.notes = '';
             Note.create(req.body).then((results)=>{
                 res.send(results);
             }).catch( (error) => {
+                console.log(error);
                 res.status(400).send(error.errors)
             })
         } else {
@@ -20,7 +21,8 @@ module.exports = {
     getNotes(req, res){
         Note.findAll({
             where:{
-                userId: req.user.id
+                userId: req.user.id,
+                status: '1'
             }
         }).then( (results) => {
             res.send(results);
@@ -28,6 +30,23 @@ module.exports = {
             //console.log(error);
             res.status(400).send("Bad Request");    
         })
+    },
+
+    moveToTrash(req, res){
+        if(req.body.id){
+            let request = {status: '0'};
+            Note.update(request,{
+                where:{
+                    userId: req.user.id,
+                    id: req.body.id
+                }
+            }).then( (results) => {
+                res.send(results);
+            }).catch(error => {
+                console.log(error);
+                res.status(400).send(error.errors)  
+            })  
+        }
     }
     
 }

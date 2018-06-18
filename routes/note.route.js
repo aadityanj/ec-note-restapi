@@ -6,4 +6,6 @@ router.post('/',  noteController.createNote );
 
 router.get('/all', noteController.getNotes);
 
+router.put('/trash', noteController.moveToTrash);
+
 module.exports = router
