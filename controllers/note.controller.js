@@ -23,7 +23,10 @@ module.exports = {
             where:{
                 userId: req.user.id,
                 status: '1'
-            }
+            },
+            order: [
+                ['updatedAt','DESC'] 
+            ]
         }).then( (results) => {
             res.send(results);
         }).catch(error => {
@@ -32,13 +35,30 @@ module.exports = {
         })
     },
 
-    moveToTrash(req, res){
+    moveToTrash(req, res) {
         if(req.body.id){
             let request = {status: '0'};
             Note.update(request,{
                 where:{
                     userId: req.user.id,
                     id: req.body.id
+                }
+            }).then( (results) => {
+                res.send(results);
+            }).catch(error => {
+                console.log(error);
+                res.status(400).send(error.errors)  
+            })  
+        }
+    },
+
+    updateNote(req, res) {
+        let id = req.params.id;
+        if(id){
+            Note.update(req.body, {
+                where:{
+                    userId: req.user.id,
+                    id: id
                 }
             }).then( (results) => {
                 res.send(results);

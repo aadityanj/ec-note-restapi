@@ -40,7 +40,7 @@ module.exports = {
                 req.body.password = hash;
                 User.update(req.body,{
                     where:{
-                        emp_id: id
+                        id: id
                     },
                     attributes: {
                         exclude:  ['password']
@@ -55,7 +55,7 @@ module.exports = {
         }else{
             User.update(req.body,{
                 where:{
-                    emp_id: id
+                    id: id
                 },
                 attributes: {
                     exclude:  ['password']
