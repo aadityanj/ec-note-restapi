@@ -3,6 +3,7 @@ const User = require('./../models').User;
 const bcrypt = require('bcrypt');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
+const userController = require('./../controllers/user.controller')
 
 module.exports = function exports(router, passport){
     
@@ -37,6 +38,8 @@ module.exports = function exports(router, passport){
             res.status(401).send();
         });
     })
+
+    router.post('/create',  userController.createUser );
 
     return router;
     
