@@ -4,10 +4,10 @@ var router = express.Router()
 
 router.post('/',  noteController.createNote );
 
+router.put('/trash', noteController.moveToTrash);
+
 router.put('/:id',  noteController.updateNote );
 
 router.get('/all', noteController.getNotes);
-
-router.put('/trash', noteController.moveToTrash);
 
 module.exports = router

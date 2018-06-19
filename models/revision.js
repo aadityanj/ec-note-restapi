@@ -1,7 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   var Revision = sequelize.define('Revision', {
-    revisionId: {
+    noteId: {
       type: DataTypes.INTEGER,
       references: {
         model: 'Note',

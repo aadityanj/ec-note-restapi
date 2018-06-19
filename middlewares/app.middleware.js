@@ -7,9 +7,12 @@ const router = express.Router();
 const auth = require('./../routes/auth');
 const userRoute = require('./../routes/user.route');
 const noteRoute = require('./../routes/note.route');
+const morgan = require('morgan');
 
 module.exports = function (app) {
     app.use(helmet());
+
+    app.use(morgan('combined'));
 
     app.use(cors())
 

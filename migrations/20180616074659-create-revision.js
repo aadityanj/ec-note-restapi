@@ -8,6 +8,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      noteId:{
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
       revisedNote: {
         type: Sequelize.TEXT
       },
