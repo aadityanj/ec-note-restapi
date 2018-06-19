@@ -1,6 +1,5 @@
 const Note = require('./../models').Note;
 const Revision = require('./../models').Revision;
-const RevisionHistory = require('./../models').Revision_History;
 const moment  = require('moment');
 const Op = require('sequelize').Op;
 
@@ -66,103 +65,38 @@ module.exports = {
                     id: parseInt(id)
                 }
             }).then( () => {
-                module.exports.createRevision(req.body.notes, id).then( (revisionId) =>{
-                    module.exports.createRevisionHistory(revisionId, req.body.changes).then( () =>{
-                        res.send("updated");
-                    });
-                });
-            });    
-        }
-    },
-
-    /* 
-        Create one revision every day 
-        if already revision found on that day, It simply updates that.
-    */
-    createRevision(notes, id){
-        return new Promise((resolve, reject) => {
-            Revision.count({
-            where: {
-                'createdAt': {
-                    [Op.between]: [moment().format('YYYY-MM-DD'), moment().add(1, 'day').format('YYYY-MM-DD')]
-                },
-                'noteId': id
-            }
-        }).then((rc) => {
-
-            let revision = {};
-            revision.revisedNote = notes;
-            revision.noteId = id;
-            if (rc == 0) {
-                Revision.create(revision).then (res => {
-                    console.log("returning ",res.dataValues.id );
-                    resolve(res.dataValues.id);
-                });
-            } else {
-                Revision.update({revisedNote: notes},{
+                Revision.findAndCountAll({
                     where: {
-                        'createdAt': {
+                        'updatedAt': {
                             [Op.between]: [moment().format('YYYY-MM-DD'), moment().add(1, 'day').format('YYYY-MM-DD')]
                         },
-                        'noteId': id
-                    }
-                }).then( (res) =>{
-                    Revision.findOne({
-                        where: {
-                            'createdAt': {
-                                [Op.gt]: moment().format('YYYY-MM-DD'),
-                                [Op.lt]: moment().add(1, 'day').format('YYYY-MM-DD')
-                            },
-                            'noteId': id
-                        }
-                     }).then(res => {
-                        console.log("returning ",res.dataValues.id );
-                         resolve(res.dataValues.id);
-                     })
-                });
-            }   
-        })
-       });  
-    },
-
-    /* 
-        Create a revision history for every revisions
-        Create an history when the last updated history is greater than 1 minute
-    */
-    createRevisionHistory(id, changes) {
-        return new Promise((resolve, reject) => {
-            Revision.count({
-                where: {
-                    'updatedAt': {
-                        [Op.between]: [moment().subtract(1, 'minute').utcOffset("+05:30").format(), moment().utcOffset("+05:30").format() ]
                     },
-                    'id': id
-                }
-            }).then( count => { 
-                console.log("Revision history Count", count);
-                let history = {};
-                history.history = changes;
-                history.revisionId  = id
-                if (count == 0) {
-                    RevisionHistory.create(history).then (res => {
-                        resolve();
-                    });
-                } else  if(count > 0){
-                    RevisionHistory.update({revisedNote: notes},{
-                        where: {
-                            'createdAt': {
-                                [Op.between]: [moment().subtract(1, 'minute').format('YYYY-MM-DD HH:mm:ss'), moment().format('YYYY-MM-DD HH:mm:ss')]
-                            },
-                            'revisionId': id
-                        }
-                    }).then( (res) =>{
-                        resolve();
-                    });
-                }   
+                    order: [ ['updatedAt', 'DESC'] ],
+                    limit: 1
+                }).then( (result) => {
+                    let rev = {};
+                    rev.noteId = id;
+                    rev.revisedNote = req.body.notes;
+                    let a = moment.utc();
+                    console.log(result.count, result.rows.length);
+                    console.log(a.diff(moment.utc(result.rows[0].updatedAt), 'minutes'));
+                    if (result.count > 0 && result.rows.length > 0 && a.diff(moment.utc(result.rows[0].updatedAt), 'minutes') < 5 ) {
+                        Revision.update({revisedNote: req.body.notes}, {
+                            where :{
+                                noteId: id
+                             }
+                        }).then( (updateRes) => {
+                            res.send("Updated");
+                        });
+                    } else {    
+                        Revision.create(rev).then( (createRes) => {
+                            res.send("Updated");
+                        });
+                    }
+                });
             }).catch( (err) => {
                 console.log(err);
-                reject();
-            })
-        });  
-    }   
+            });
+        }
+    }
 }
