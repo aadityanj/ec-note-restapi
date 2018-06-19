@@ -68,8 +68,9 @@ module.exports = {
                 Revision.findAndCountAll({
                     where: {
                         'updatedAt': {
-                            [Op.between]: [moment().format('YYYY-MM-DD'), moment().add(1, 'day').format('YYYY-MM-DD')]
+                            [Op.between]: [moment.utc().format('YYYY-MM-DD'), moment.utc().add(1, 'day').format('YYYY-MM-DD')]
                         },
+                        noteId: id
                     },
                     order: [ ['updatedAt', 'DESC'] ],
                     limit: 1
@@ -79,24 +80,43 @@ module.exports = {
                     rev.revisedNote = req.body.notes;
                     let a = moment.utc();
                     console.log(result.count, result.rows.length);
-                    console.log(a.diff(moment.utc(result.rows[0].updatedAt), 'minutes'));
-                    if (result.count > 0 && result.rows.length > 0 && a.diff(moment.utc(result.rows[0].updatedAt), 'minutes') < 5 ) {
+                    if (result.count > 0 && result.rows.length > 0 && a.diff(moment.utc(result.rows[0].updatedAt), 'minutes') < 1 ) {
                         Revision.update({revisedNote: req.body.notes}, {
                             where :{
-                                noteId: id
+                                noteId: id,
+                                id: result.rows[0].id
                              }
                         }).then( (updateRes) => {
                             res.send("Updated");
                         });
                     } else {    
                         Revision.create(rev).then( (createRes) => {
+                            console.log(createRes);
                             res.send("Updated");
                         });
                     }
                 });
             }).catch( (err) => {
+                res.status(400).send(err);
                 console.log(err);
             });
         }
+    },
+
+    getHistory(req, res){
+        const id = req.params.id;
+        Revision.findAll({
+            where:{
+                noteId: id
+            },
+            order: [
+                ['updatedAt','DESC'] 
+            ]
+        }).then( (results) => {
+            res.send(results);
+        }).catch(error => {
+            console.log(error);
+            res.status(400).send("Bad Request");    
+        })
     }
 }

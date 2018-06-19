@@ -6,6 +6,8 @@ router.post('/',  noteController.createNote );
 
 router.put('/trash', noteController.moveToTrash);
 
+router.get('/history/:id', noteController.getHistory);
+
 router.put('/:id',  noteController.updateNote );
 
 router.get('/all', noteController.getNotes);
