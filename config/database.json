@@ -6,5 +6,21 @@
     "host": "localhost",
     "dialect": "postgres",
     "operatorsAliases": false
+  },
+  "production": {
+    "username": "postgres",
+    "password": null,
+    "database": "ec_note",
+    "host": "localhost",
+    "dialect": "postgres",
+    "operatorsAliases": false
+  },
+  "test": {
+    "username": "postgres",
+    "password": null,
+    "database": "ec_note",
+    "host": "localhost",
+    "dialect": "postgres",
+    "operatorsAliases": false
   }
 }
