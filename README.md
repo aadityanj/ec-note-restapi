@@ -2,12 +2,12 @@
 
 # Description 
 
-Ec-Note-RestApi is a Rest Api Backend Server for [Ec-Note](https://github.com/aadityanj/ec-note) web application designed for notes taking, maintaining the revisions, restoring the revisions. It allows users to create, edit, delete, restore notes. Each note is a plain text file. 
+Ec-Note-RestApi is a Rest Api Backend Server for [Ec-Note](https://github.com/aadityanj/ec-note) web application designed for taking notes, maintaining the revisions, restoring the revisions.  It allows users to create, edit, delete, restore notes. Each note is a plain text file. 
 
 # Installation & Server Setup in Linux
 - Install Latest LTS version of [Node JS](https://nodejs.org/en/) globally.  
 - Install [PostgreSQL](https://www.postgresql.org/download/) database in your server 
- - create one database in your postgreSQL server and name it as `ec_note`
+ - create a database named `ec_note` in your postgreSQL server.
 - Install [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 - To download the project, follow the below instructions
   - execute this below commands one by one in your teminal 
@@ -17,7 +17,7 @@ Ec-Note-RestApi is a Rest Api Backend Server for [Ec-Note](https://github.com/aa
       $ npm install
     ```
 - Configure the database for your project
-  - Open the config directory in your project files and open the database.json with any notepad editor. 
+  - Open the config directory in your project files and open database.json with any notepad editor. 
   - The config file should be like the below structure
    ```
    {
@@ -66,7 +66,7 @@ Ec-Note-RestApi is a Rest Api Backend Server for [Ec-Note](https://github.com/aa
     $ npm start
    ```
 - To change the port number
-    - Open the config directory in your project files and open the config.json with any notepad editor.
+    - Open the config directory in your project files and open config.json with any notepad editor.
     - change your port number in that file 
 - # Deployment
   - Install [PM2](http://pm2.keymetrics.io/) process manager in your server globally. 
@@ -75,11 +75,10 @@ Ec-Note-RestApi is a Rest Api Backend Server for [Ec-Note](https://github.com/aa
       $ cd ec-note-restapi
       $ pm2 start app.js  
     ```
-- # 
-
-
-
-    
 
 # You're done!
 
+# Possible Improvements
+ - Note storage optimization
+ - Adding more error handler
+ 

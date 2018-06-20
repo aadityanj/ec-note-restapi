@@ -56,29 +56,6 @@ module.exports = (sequelize, DataTypes) => {
         }
        }
     },
-    userName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: {
-        args: true,
-        msg: 'UserName must be unique.',
-        fields: [sequelize.fn('lower', sequelize.col('userName'))]
-      },
-      validate: { 
-        notEmpty: { 
-          args: true,
-          msg: "userName Should be Null or undefined"
-        },
-        len: {
-          args: [3,30],
-          msg: "Invalid User Name"
-        },
-        is: {
-          args: /^[a-zA-Z0-9]+([_ -]?[a-zA-Z0-9])*$/,
-          msg: "Invalid UserName" 
-        } 
-      }
-    },
     password: {
       type: DataTypes.TEXT,
       allowNull: false,
