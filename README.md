@@ -80,5 +80,6 @@ Ec-Note-RestApi is a Rest Api Backend Server for [Ec-Note](https://github.com/aa
 
 # Possible Improvements
  - Note storage optimization
- - Adding more error handler
- 
+ - Adding more error handlers
+
+
