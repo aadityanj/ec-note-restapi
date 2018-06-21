@@ -55,6 +55,12 @@ module.exports = {
         }
     },
     
+    /*
+        To do's 
+            storage optimization
+            Improve validation and error handlers
+            Increase revision timing
+    */
     updateNote(req, res) {
         const id = req.params.id;
         console.log(id);
@@ -119,4 +125,10 @@ module.exports = {
             res.status(400).send("Bad Request");    
         })
     }
+
+     /* 
+        To Do's
+            Improve validation and error handlers
+            Add proper response status code
+    */
 }

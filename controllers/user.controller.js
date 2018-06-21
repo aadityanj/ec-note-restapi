@@ -68,5 +68,11 @@ module.exports = {
             })
         }
     }
+
+    /* 
+        To Do's
+            Improve validation and error handlers
+            Add more response types 
+    */
     
 }
