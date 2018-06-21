@@ -48,9 +48,9 @@ Ec-Note-RestApi is a Rest Api Backend Server for [Ec-Note](https://github.com/aa
     }
    ``` 
   - Change your postgreSQL server credentials accordingly to that config file and save it.  
-  - Execute the below commands to complete the db setup for your projects
+  - Execute the below commands to complete the db setup for your projects and it will create a set of tables in your database.
     ```
-       $ node_modules/.bin/sequelize init
+       $ node_modules/.bin/sequelize db:migrate
     ```
 - # To run the project
   - Change the environment variable from one of this (development, production, test)
